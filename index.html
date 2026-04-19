@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Монастыри и иконы — Музеи Казани</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #b8935a;
+    --gold-light: #d4aa72;
+    --gold-dim: #7a5e35;
+    --bg: #110e0a;
+    --bg-card: #1c1610;
+    --border: #2e2418;
+    --border2: #3a2e20;
+    --text: #e8dcc8;
+    --text-muted: #7a6a54;
+    --text-dim: #4a3c2c;
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'Jost', sans-serif; font-weight: 300; min-height: 100vh; padding: 0 0 4rem; }
+  .header { text-align: center; padding: 3rem 1.5rem 2.5rem; border-bottom: 0.5px solid var(--border); position: relative; }
+  .header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0.5; }
+  .ornament { color: var(--gold); font-size: 13px; letter-spacing: 10px; margin-bottom: 1rem; opacity: 0.7; }
+  .header h1 { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 500; color: var(--text); letter-spacing: 3px; margin-bottom: 0.5rem; }
+  .header-sub { font-size: 11px; color: var(--text-muted); letter-spacing: 3px; text-transform: uppercase; }
+  .grid { display: flex; flex-direction: column; gap: 1.2rem; max-width: 520px; margin: 0 auto; padding: 1.5rem 1rem 0; }
+  .card { background: var(--bg-card); border: 0.5px solid var(--border2); border-radius: 10px; overflow: hidden; opacity: 0; transform: translateY(16px); animation: fadeUp 0.5s ease forwards; }
+  .card:nth-child(1){animation-delay:.1s} .card:nth-child(2){animation-delay:.2s} .card:nth-child(3){animation-delay:.3s} .card:nth-child(4){animation-delay:.4s} .card:nth-child(5){animation-delay:.5s}
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+  .photos { display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: 85px 85px; gap: 1.5px; background: #0a0806; }
+  .photo-main { grid-row: span 2; }
+  .photo-slot { background: #181210; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .photo-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .photo-ph { opacity: 0.12; }
+  .card-body { padding: 1rem 1.15rem 1.1rem; }
+  .card-num { font-size: 10px; color: var(--gold-dim); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .card-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 500; color: var(--text); margin-bottom: 0.9rem; line-height: 1.25; }
+  .info-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .info-row { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 12.5px; }
+  .icon { flex-shrink: 0; margin-top: 1px; }
+  .info-text { color: var(--text-muted); line-height: 1.45; }
+  .info-link { color: var(--gold); text-decoration: none; }
+  .sep { height: 0.5px; background: var(--border); margin: 0.4rem 0; }
+  .card-soon { background: var(--bg-card); border: 0.5px solid var(--border2); border-radius: 10px; overflow: hidden; opacity: 0; transform: translateY(16px); animation: fadeUp 0.5s ease forwards; animation-delay: 0.5s; }
+  .soon-top { height: 3px; background: repeating-linear-gradient(90deg, var(--gold) 0, var(--gold) 6px, transparent 6px, transparent 14px); opacity: 0.25; }
+  .soon-inner { padding: 1.2rem 1.15rem; display: flex; align-items: center; gap: 1rem; }
+  .soon-circle { width: 46px; height: 46px; border-radius: 50%; border: 0.5px solid var(--border2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .soon-num { font-size: 10px; color: var(--text-dim); letter-spacing: 3px; margin-bottom: 0.25rem; }
+  .soon-name { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 500; color: var(--text-muted); margin-bottom: 0.25rem; line-height: 1.3; }
+  .soon-addr { font-size: 12px; color: var(--text-dim); margin-bottom: 0.55rem; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--gold); background: #1e1610; border: 0.5px solid var(--border2); border-radius: 30px; padding: 3px 11px; }
+  .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); animation: blink 2s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+  .footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--text-dim); letter-spacing: 4px; }
+
+  /* ICON SVGs inline */
+  .ico-pin { display:inline-block;width:14px;height:14px; }
+  .ico-phone { display:inline-block;width:14px;height:14px; }
+  .ico-web { display:inline-block;width:14px;height:14px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="ornament">✦ &nbsp; ✦ &nbsp; ✦</div>
+  <h1>Монастыри и иконы</h1>
+  <div class="header-sub">Музеи Казани по теме</div>
+</div>
+<div class="grid" id="grid"></div>
+<div class="footer">✦ &nbsp;&nbsp; ✦ &nbsp;&nbsp; ✦</div>
+
+<script>
+const DEFAULT_DATA = [
+  { id:1, name:"Городская Панорама", address:"ул. Дзержинского, 7", phone:"+7 (843) 292-40-52", website:"kazan-panorama.ru", soon:false },
+  { id:2, name:"Музей Казанской Иконы", address:"ул. Большая Красная, 10", phone:"+7 (843) 590-03-51 / +7 (843) 590-08-23", website:"kazanicons.ru", soon:false },
+  { id:3, name:"Музей-заповедник «Казанский Кремль»", address:"Кремль, а/я 522", phone:"+7 (843) 567-80-16 / +7 (843) 567-81-42", website:"kazan-kremlin.ru", soon:false },
+  { id:4, name:"Музей Казанского Богородицкого монастыря", address:"ул. Большая Красная, 5", phone:"", website:"", soon:false },
+  { id:5, name:"Новый музей Казанской Иконы", address:"ул. Большая Красная, 2", phone:"", website:"", soon:true }
+];
+
+function getData() {
+  try { const d = localStorage.getItem('kazan_museums'); return d ? JSON.parse(d) : DEFAULT_DATA; } catch(e) { return DEFAULT_DATA; }
+}
+
+const pinSVG = `<svg class="ico-pin" viewBox="0 0 16 16" fill="none"><path d="M8 1.5C5.79 1.5 4 3.29 4 5.5c0 3.25 4 9 4 9s4-5.75 4-9c0-2.21-1.79-4-4-4z" stroke="#b8935a" stroke-width="1.1"/><circle cx="8" cy="5.5" r="1.5" stroke="#b8935a" stroke-width="1.1"/></svg>`;
+const phoneSVG = `<svg class="ico-phone" viewBox="0 0 16 16" fill="none"><path d="M4.5 2h2l1 3-1.5 1c.6 1.3 1.7 2.4 3 3l1-1.5 3 1v2C13 12.3 11.3 14 9.5 14 5.36 14 2 10.64 2 6.5 2 4.7 3.7 3 4.5 2z" stroke="#b8935a" stroke-width="1.1"/></svg>`;
+const webSVG = `<svg class="ico-web" viewBox="0 0 16 16" fill="none"><rect x="2" y="3.5" width="12" height="9" rx="1" stroke="#b8935a" stroke-width="1.1"/><path d="M2 3.5l6 5.5 6-5.5" stroke="#b8935a" stroke-width="1.1"/></svg>`;
+const photoPH = `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" class="photo-ph"><rect width="32" height="32" rx="4" fill="#b8935a" opacity="0.3"/><path d="M5 24l7-8 5 6 4-4 6 6" stroke="#b8935a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="2.5" fill="#b8935a" opacity="0.6"/></svg>`;
+const photoPHsm = `<svg width="22" height="22" viewBox="0 0 32 32" fill="none" class="photo-ph"><path d="M5 24l7-8 5 6 4-4 6 6" stroke="#b8935a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+function renderMuseum(m, i) {
+  if (m.soon) {
+    return `<div class="card-soon">
+      <div class="soon-top"></div>
+      <div class="soon-inner">
+        <div class="soon-circle">
+          <svg width="20" height="20" viewBox="0 0 22 22" fill="none"><path d="M11 3v4M11 15v4M3 11h4M15 11h4" stroke="#b8935a" stroke-width="1.2" stroke-linecap="round"/><circle cx="11" cy="11" r="3" stroke="#b8935a" stroke-width="1.2"/></svg>
+        </div>
+        <div>
+          <div class="soon-num">Музей 0${m.id}</div>
+          <div class="soon-name">${m.name}</div>
+          ${m.address ? `<div class="soon-addr">${m.address}</div>` : ''}
+          <div class="badge"><div class="dot"></div>Скоро открытие</div>
+        </div>
+      </div>
+    </div>`;
+  }
+  return `<div class="card">
+    <div class="photos">
+      <div class="photo-slot photo-main">${photoPH}</div>
+      <div class="photo-slot">${photoPHsm}</div>
+      <div class="photo-slot">${photoPHsm}</div>
+    </div>
+    <div class="card-body">
+      <div class="card-num">Музей 0${m.id}</div>
+      <div class="card-name">${m.name}</div>
+      <div class="info-list">
+        ${m.address ? `<div class="info-row"><span class="icon">${pinSVG}</span><span class="info-text">${m.address}</span></div>` : ''}
+        ${m.address && (m.phone || m.website) ? '<div class="sep"></div>' : ''}
+        ${m.phone ? `<div class="info-row"><span class="icon">${phoneSVG}</span><span class="info-text">${m.phone}</span></div>` : ''}
+        ${m.website ? `<div class="info-row"><span class="icon">${webSVG}</span><a href="https://${m.website}" class="info-link">${m.website}</a></div>` : ''}
+      </div>
+    </div>
+  </div>`;
+}
+
+function render() {
+  const data = getData();
+  document.getElementById('grid').innerHTML = data.map((m,i) => renderMuseum(m,i)).join('');
+}
+
+render();
+</script>
+</body>
+</html>

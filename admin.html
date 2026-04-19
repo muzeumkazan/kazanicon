@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Админка — Музеи Казани</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #b8935a;
+    --gold-light: #d4aa72;
+    --bg: #110e0a;
+    --bg-card: #1c1610;
+    --bg-input: #161108;
+    --border: #2e2418;
+    --border2: #3a2e20;
+    --text: #e8dcc8;
+    --text-muted: #7a6a54;
+    --text-dim: #4a3c2c;
+    --green: #4a7c4e;
+    --green-light: #6aaa70;
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'Jost', sans-serif; font-weight: 300; min-height: 100vh; padding: 0 0 4rem; }
+
+  /* LOGIN */
+  .login-wrap { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; }
+  .login-box { background: var(--bg-card); border: 0.5px solid var(--border2); border-radius: 12px; padding: 2.5rem 2rem; width: 100%; max-width: 360px; text-align: center; }
+  .login-ornament { color: var(--gold); font-size: 13px; letter-spacing: 8px; margin-bottom: 1rem; opacity: 0.7; }
+  .login-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 500; color: var(--text); margin-bottom: 0.4rem; }
+  .login-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 2rem; letter-spacing: 1px; }
+  .login-input { width: 100%; background: var(--bg-input); border: 0.5px solid var(--border2); border-radius: 8px; color: var(--text); font-family: 'Jost', sans-serif; font-size: 14px; padding: 12px 14px; margin-bottom: 1rem; outline: none; letter-spacing: 3px; text-align: center; }
+  .login-input:focus { border-color: var(--gold); }
+  .login-btn { width: 100%; background: transparent; border: 0.5px solid var(--gold); color: var(--gold); font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 3px; padding: 12px; border-radius: 30px; cursor: pointer; transition: background 0.2s, color 0.2s; }
+  .login-btn:hover { background: var(--gold); color: var(--bg); }
+  .login-error { font-size: 12px; color: #c0504a; margin-top: 0.75rem; letter-spacing: 1px; display: none; }
+
+  /* ADMIN */
+  .admin-wrap { display: none; max-width: 560px; margin: 0 auto; padding: 2rem 1rem; }
+  .admin-header { text-align: center; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 0.5px solid var(--border); }
+  .admin-header h1 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 500; color: var(--text); letter-spacing: 2px; margin-bottom: 0.3rem; }
+  .admin-header p { font-size: 11px; color: var(--text-muted); letter-spacing: 2px; }
+
+  .museum-block { background: var(--bg-card); border: 0.5px solid var(--border2); border-radius: 10px; padding: 1.25rem; margin-bottom: 1rem; }
+  .block-title { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 500; color: var(--gold); margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between; }
+  .block-num { font-size: 10px; color: var(--text-dim); letter-spacing: 3px; font-family: 'Jost', sans-serif; font-weight: 300; }
+
+  .field { margin-bottom: 0.85rem; }
+  .field label { display: block; font-size: 10px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .field input, .field select { width: 100%; background: var(--bg-input); border: 0.5px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 300; padding: 9px 12px; outline: none; transition: border-color 0.2s; }
+  .field input:focus, .field select:focus { border-color: var(--gold); }
+  .field select option { background: #1c1610; color: var(--text); }
+
+  .toggle-wrap { display: flex; align-items: center; gap: 10px; }
+  .toggle { position: relative; width: 40px; height: 22px; }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .slider { position: absolute; inset: 0; background: var(--border2); border-radius: 22px; cursor: pointer; transition: background 0.2s; }
+  .slider::before { content: ''; position: absolute; width: 16px; height: 16px; left: 3px; top: 3px; background: var(--text-muted); border-radius: 50%; transition: transform 0.2s, background 0.2s; }
+  input:checked + .slider { background: var(--gold-light); }
+  input:checked + .slider::before { transform: translateX(18px); background: #fff; }
+  .toggle-label { font-size: 12px; color: var(--text-muted); }
+
+  .save-all-btn { width: 100%; background: var(--gold); border: none; color: #110e0a; font-family: 'Jost', sans-serif; font-size: 13px; letter-spacing: 3px; padding: 14px; border-radius: 30px; cursor: pointer; transition: opacity 0.2s; margin-top: 0.5rem; }
+  .save-all-btn:hover { opacity: 0.85; }
+
+  .success-msg { text-align: center; font-size: 12px; color: var(--green-light); letter-spacing: 2px; margin-top: 1rem; display: none; }
+
+  .view-link { display: block; text-align: center; margin-top: 1.5rem; font-size: 11px; color: var(--text-dim); letter-spacing: 1px; text-decoration: none; }
+  .view-link:hover { color: var(--gold); }
+
+  .logout-btn { display: block; text-align: center; margin-top: 0.75rem; font-size: 11px; color: var(--text-dim); letter-spacing: 1px; cursor: pointer; background: none; border: none; font-family: 'Jost', sans-serif; }
+  .logout-btn:hover { color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-box">
+    <div class="login-ornament">✦ &nbsp; ✦ &nbsp; ✦</div>
+    <div class="login-title">Панель управления</div>
+    <div class="login-sub">Введите пароль для входа</div>
+    <input type="password" class="login-input" id="pwInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">Войти</button>
+    <div class="login-error" id="loginError">Неверный пароль</div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-wrap" id="adminWrap">
+  <div class="admin-header">
+    <h1>Управление музеями</h1>
+    <p>Измените данные и нажмите «Сохранить»</p>
+  </div>
+  <div id="blocksContainer"></div>
+  <button class="save-all-btn" onclick="saveAll()">Сохранить изменения</button>
+  <div class="success-msg" id="successMsg">✦ &nbsp; Данные сохранены &nbsp; ✦</div>
+  <a href="/" class="view-link">Посмотреть страницу музеев →</a>
+  <button class="logout-btn" onclick="logout()">Выйти</button>
+</div>
+
+<script>
+const PASSWORD = 'kazan2024';
+
+const DEFAULT_DATA = [
+  { id:1, name:"Городская Панорама", address:"ул. Дзержинского, 7", phone:"+7 (843) 292-40-52", website:"kazan-panorama.ru", soon:false },
+  { id:2, name:"Музей Казанской Иконы", address:"ул. Большая Красная, 10", phone:"+7 (843) 590-03-51 / +7 (843) 590-08-23", website:"kazanicons.ru", soon:false },
+  { id:3, name:"Музей-заповедник «Казанский Кремль»", address:"Кремль, а/я 522", phone:"+7 (843) 567-80-16 / +7 (843) 567-81-42", website:"kazan-kremlin.ru", soon:false },
+  { id:4, name:"Музей Казанского Богородицкого монастыря", address:"ул. Большая Красная, 5", phone:"", website:"", soon:false },
+  { id:5, name:"Новый музей Казанской Иконы", address:"ул. Большая Красная, 2", phone:"", website:"", soon:true }
+];
+
+function getData() {
+  try { const d = localStorage.getItem('kazan_museums'); return d ? JSON.parse(d) : DEFAULT_DATA; } catch(e) { return DEFAULT_DATA; }
+}
+
+function doLogin() {
+  const pw = document.getElementById('pwInput').value;
+  if (pw === PASSWORD) {
+    sessionStorage.setItem('admin_auth', '1');
+    document.getElementById('loginWrap').style.display = 'none';
+    document.getElementById('adminWrap').style.display = 'block';
+    renderBlocks();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+  }
+}
+
+function logout() {
+  sessionStorage.removeItem('admin_auth');
+  location.reload();
+}
+
+function renderBlocks() {
+  const data = getData();
+  const container = document.getElementById('blocksContainer');
+  container.innerHTML = data.map(m => `
+    <div class="museum-block" data-id="${m.id}">
+      <div class="block-title">
+        <span>${m.name}</span>
+        <span class="block-num">Музей 0${m.id}</span>
+      </div>
+      <div class="field">
+        <label>Название</label>
+        <input type="text" name="name" value="${m.name}">
+      </div>
+      <div class="field">
+        <label>Адрес</label>
+        <input type="text" name="address" value="${m.address}">
+      </div>
+      <div class="field">
+        <label>Телефон</label>
+        <input type="text" name="phone" value="${m.phone}" placeholder="Не указан">
+      </div>
+      <div class="field">
+        <label>Сайт</label>
+        <input type="text" name="website" value="${m.website}" placeholder="Не указан">
+      </div>
+      <div class="field">
+        <label>Статус</label>
+        <div class="toggle-wrap">
+          <label class="toggle">
+            <input type="checkbox" name="soon" ${m.soon ? 'checked' : ''}>
+            <span class="slider"></span>
+          </label>
+          <span class="toggle-label">Показывать как «Скоро открытие»</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function saveAll() {
+  const blocks = document.querySelectorAll('.museum-block');
+  const newData = Array.from(blocks).map(block => {
+    const id = parseInt(block.dataset.id);
+    return {
+      id,
+      name: block.querySelector('[name="name"]').value,
+      address: block.querySelector('[name="address"]').value,
+      phone: block.querySelector('[name="phone"]').value,
+      website: block.querySelector('[name="website"]').value,
+      soon: block.querySelector('[name="soon"]').checked
+    };
+  });
+  localStorage.setItem('kazan_museums', JSON.stringify(newData));
+  const msg = document.getElementById('successMsg');
+  msg.style.display = 'block';
+  setTimeout(() => msg.style.display = 'none', 3000);
+  renderBlocks();
+}
+
+if (sessionStorage.getItem('admin_auth') === '1') {
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('adminWrap').style.display = 'block';
+  renderBlocks();
+}
+</script>
+</body>
+</html>
